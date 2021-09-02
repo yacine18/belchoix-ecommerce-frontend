@@ -3,7 +3,7 @@ import { CART_ADD_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS, RE
 
 
 export const addToCart = (productId, qty) => async (dispatch, getState) => {
-    const { data } = await axios.get(`https://belchoix-backend.herokuapp.com/api/products/${productId}`)
+    const { data } = await axios.get(`/api/products/${productId}`)
     dispatch({
         type: CART_ADD_ITEM,
         payload: {

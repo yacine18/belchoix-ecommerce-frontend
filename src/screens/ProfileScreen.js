@@ -24,7 +24,7 @@ const ProfileScreen = () => {
 
     }, [dispatch, userInfo, user])
     return (
-        <div className="container mt-5">
+        <div className="container mt-5" data-testid="profile-1">
             <div className="row">
                 {
                     loading ? <LoadingBox></LoadingBox>

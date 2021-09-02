@@ -11,7 +11,7 @@ import {
 export const listProduct = ({name = ''}) => async (dispatch) => {
     dispatch({ type: PRODUCT_LIST_REQUEST })
     try {
-        const { data } = await axios.get(`https://belchoix-backend.herokuapp.com/api/products?name=${name}`)
+        const { data } = await axios.get(`/api/products?name=${name}`)
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
             payload: data
@@ -28,7 +28,7 @@ export const listProduct = ({name = ''}) => async (dispatch) => {
 export const detailsProduct = productId => async dispatch => {
     dispatch({ type: PRODUCT_DETAILS_REQUEST, payload: productId })
     try {
-        const {data} = await axios.get(`https://belchoix-backend.herokuapp.com/api/products/${productId}`)
+        const {data} = await axios.get(`/api/products/${productId}`)
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,
             payload: data

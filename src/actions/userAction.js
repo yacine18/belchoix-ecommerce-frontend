@@ -1,5 +1,8 @@
 import axios from 'axios'
 import {
+    USERS_DETAILS_FAIL,
+    USERS_DETAILS_REQUEST,
+    USERS_DETAILS_SUCCESS,
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
@@ -19,7 +22,7 @@ import {
 export const signin = (email, password) => async (dispatch) => {
     dispatch({ type: USER_SIGNIN_REQUEST, payload: { email, password } })
     try {
-        const { data } = await axios.post('https://belchoix-backend.herokuapp.com/api/users/login', { email, password })
+        const { data } = await axios.post('/api/users/login', { email, password })
         dispatch({
             type: USER_SIGNIN_SUCCESS,
             payload: data
@@ -37,7 +40,7 @@ export const signin = (email, password) => async (dispatch) => {
 export const register = (name, mobile, email, password) => async (dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST, payload: { name, mobile, email, password } })
     try {
-        const { data } = await axios.post('https://belchoix-backend.herokuapp.com/api/users/register', { name, mobile, email, password })
+        const { data } = await axios.post('/api/users/register', { name, mobile, email, password })
         dispatch({
             type: USER_REGISTER_SUCCESS,
             payload: data
@@ -66,7 +69,7 @@ export const detailsUser = userId => async (dispatch, getState) => {
     dispatch({ type: USER_DETAILS_REQUEST, payload: userId })
     const { userSignin: { userInfo } } = getState()
     try {
-        const { data } = await axios.get(`https://belchoix-backend.herokuapp.com/api/users/${userId}`, {
+        const { data } = await axios.get(`/api/users/${userId}`, {
             headers: {
                 Authorization: `Bearer ${userInfo.token}`
             }
@@ -88,7 +91,7 @@ export const profileUserUpdate = user => async (dispatch, getState) => {
     dispatch({ type: USER_UPDATE_REQUEST, payload: user })
     try {
         const { userSignin: { userInfo } } = getState()
-        const { data } = await axios.put(`https://belchoix-backend.herokuapp.com/api/users/profile`, {user}, {
+        const { data } = await axios.put(`/api/users/profile`, {user}, {
             headers: {
                 Authorization: `Bearer ${userInfo.token}`
             }
@@ -106,6 +109,34 @@ export const profileUserUpdate = user => async (dispatch, getState) => {
         const message = error.response && error.response.data.message ? error.response.data.message : error.message
         dispatch({
             type: USER_UPDATE_FAIL,
+            payload: message
+        })
+    }
+}
+
+export const usersDetails = () => async(dispatch, getState) => {
+    dispatch({
+        type: USERS_DETAILS_REQUEST
+    })
+
+    try {
+
+        const {userSignin: {userInfo}} = getState()
+        const {data} = await axios.get('/api/users', {
+            headers:{
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        })
+
+        dispatch({
+            type: USERS_DETAILS_SUCCESS,
+            payload: data
+        })
+        
+    } catch (error) {
+        const message = error.response && error.response.data.message ? error.response.data.message : error.message
+        dispatch({
+            type: USERS_DETAILS_FAIL,
             payload: message
         })
     }

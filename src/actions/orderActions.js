@@ -21,7 +21,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await axios.post("https://belchoix-backend.herokuapp.com/api/orders", order, {
+    const { data } = await axios.post("/api/orders", order, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
@@ -51,7 +51,7 @@ export const detailsOrder = (orderId) => async (dispatch, getState) => {
   } = getState();
 
   try {
-    const { data } = await axios.get(`https://belchoix-backend.herokuapp.com/api/orders/${orderId}`, {
+    const { data } = await axios.get(`/api/orders/${orderId}`, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
@@ -81,7 +81,7 @@ export const payOrder =
 
     try {
       const { data } = await axios.put(
-        `https://belchoix-backend.herokuapp.com/api/orders/${order._id}/pay`,
+        `/api/orders/${order._id}/pay`,
         paymentResult,
         {
           headers: {
@@ -113,7 +113,7 @@ export const listOrderMine = () => async (dispatch, getState) => {
   } = getState();
 
   try {
-    const { data } = await axios.get("https://belchoix-backend.herokuapp.com/api/orders/mine", {
+    const { data } = await axios.get("/api/orders/mine", {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
